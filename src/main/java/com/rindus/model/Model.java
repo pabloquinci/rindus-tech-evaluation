@@ -9,7 +9,6 @@ import org.springframework.data.redis.core.RedisHash;
 import lombok.Data;
 
 @Data
-
 public class Model implements Serializable {
 
 	private String key;
