@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.rindus.consts.ModelConsts;
 import com.rindus.repository.ModelRepository;
+import com.rindus.service.LogCoefCalculationService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,6 +28,8 @@ class RindusLogisticRegChallengeApplicationTests {
 	ModelRepository modelRepository;
 	@Autowired
 	JedisConnectionFactory conection;
+	@Autowired
+	LogCoefCalculationService logCoefCalculationService;
 
 	@Test
 	void testRedisConection() {
@@ -38,15 +41,15 @@ class RindusLogisticRegChallengeApplicationTests {
 
 	@Test
 	void contextLoads() {
-		Map<String, String> reg = new HashMap<>();
+		Map<String, String> logRegMap = new HashMap<>();
 
-		reg.put("deviceExtBrowser", "Firefox");
-		reg.put("bannerExtSize", "300x250");
-		reg.put("deviceLanguage", "de");
-		reg.put("deviceExtType", "tablet");
+		logRegMap.put("deviceExtBrowser", "Firefox");
+		logRegMap.put("bannerExtSize", "300x250");
+		logRegMap.put("deviceLanguage", "de");
+		logRegMap.put("deviceExtType", "tablet");
 
-		System.out.println(modelRepository.calculateRegresionCoef(reg));
-		Assert.assertEquals(0.0016306374, modelRepository.calculateRegresionCoef(reg), ModelConsts.DELTA);
+		System.out.println(modelRepository.calculateRegresionCoef(logRegMap));
+		Assert.assertEquals(0.0016306374, logCoefCalculationService.getLogCoef(logRegMap).getRefCoef(), ModelConsts.DELTA);
 	}
 
 }
